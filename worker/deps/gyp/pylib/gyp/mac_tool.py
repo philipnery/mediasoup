@@ -113,13 +113,14 @@ class MacTool(object):
       raise
     current_section_header = None
     for line in stdout.splitlines():
-      if ibtool_section_re.match(line):
-        current_section_header = line
-      elif not ibtool_re.match(line):
+      line_decoded = line.decode("utf-8")
+      if ibtool_section_re.match(line_decoded):
+        current_section_header = line_decoded
+      elif not ibtool_re.match(line_decoded):
         if current_section_header:
           print(current_section_header)
           current_section_header = None
-        print(line)
+        print(line_decoded)
     return 0
 
   def _ConvertToBinary(self, dest):
